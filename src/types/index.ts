@@ -7,7 +7,7 @@ import type {
   AcademicBackground,
   ExtraCurricular,
   CodeChefProfile,
-} from "@prisma/client";
+} from "@/generated/prisma/client";
 
 // Full profile with all sections
 export type FullProfile = Profile & {
@@ -55,4 +55,5 @@ export type ParsedResume = {
   academicBgs?: Omit<AcademicBackground, "id" | "profileId" | "createdAt">[];
   extraCurriculars?: Omit<ExtraCurricular, "id" | "profileId" | "createdAt">[];
   codechef?: Omit<CodeChefProfile, "id" | "profileId" | "updatedAt"> | null;
+  misc?: { title: string; items: string[] }[];
 };

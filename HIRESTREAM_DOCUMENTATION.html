@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HireStream Documentation</title>
+  <style>
+    @media print {
+      body { font-size: 11px; }
+      h1 { font-size: 22px; }
+      h2 { font-size: 16px; break-after: avoid; }
+      h3 { font-size: 13px; break-after: avoid; }
+      table, pre { break-inside: avoid; }
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      line-height: 1.6;
+      color: #1a1a1a;
+    }
+    h1 { color: #111; border-bottom: 2px solid #2563eb; padding-bottom: 0.3em; }
+    h2 { color: #1e40af; margin-top: 2em; }
+    h3 { color: #374151; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.9em; display: table; }
+    th, td { border: 1px solid #d1d5db; padding: 8px 12px; text-align: left; }
+    th { background: #f3f4f6; font-weight: 600; }
+    tr:nth-child(even) { background: #f9fafb; }
+    code { background: #f3f4f6; padding: 2px 5px; border-radius: 3px; font-size: 0.9em; }
+    pre { background: #f3f4f6; padding: 1em; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    blockquote { border-left: 4px solid #2563eb; margin: 1em 0; padding: 0.5em 1em; background: #eff6ff; color: #1e40af; }
+    hr { border: none; border-top: 1px solid #e5e7eb; margin: 2em 0; }
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">HireStream Documentation</h1>
+</header>
+<h1 id="hirestream-project-documentation">HireStream — Project
+Documentation</h1>
+<blockquote>
+<p>A plain-English guide to every folder and file in the project.
+Written so that anyone — developer or not — can understand what each
+piece does and how they fit together.</p>
+</blockquote>
+<hr />
+<h2 id="what-is-hirestream">What is HireStream?</h2>
+<p>HireStream is a web application where <strong>job seekers</strong>
+build professional profiles, <strong>recruiters</strong> find talent,
+and <strong>peers</strong> help each other improve. Think of it as a mix
+of LinkedIn (profiles), Google Docs (collaborative suggestions), and an
+AI-powered job board.</p>
+<p>There are three kinds of roles, and <strong>a single user can hold
+multiple roles</strong> (e.g., be both a Job Seeker and a
+Recruiter):</p>
+<table>
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>What they do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Job Seeker</strong></td>
+<td>Build a profile (experience, projects, education, etc.), share it
+publicly, get peer reviews and suggestions, discover similar profiles,
+chat with recruiters</td>
+</tr>
+<tr>
+<td><strong>Recruiter</strong></td>
+<td>Search for candidates using plain-English queries (powered by AI),
+post jobs, message candidates directly</td>
+</tr>
+<tr>
+<td><strong>Admin</strong></td>
+<td>View platform statistics, manage users</td>
+</tr>
+</tbody>
+</table>
+<p>Users can switch between their roles at any time using the
+<strong>Role Switcher</strong> in the sidebar. When switching to a role
+for the first time, the system automatically sets it up (e.g., creates a
+profile when switching to Job Seeker).</p>
+<hr />
+<h2 id="how-the-app-works-high-level">How the App Works (High
+Level)</h2>
+<ol type="1">
+<li>A user signs up (email/password or Google) and picks an initial
+role. They can add the other role later via the sidebar switcher.</li>
+<li><strong>Job seekers</strong> fill out their profile — work
+experience, projects, internships, education, extra-curriculars, and
+optionally their CodeChef competitive programming stats.</li>
+<li>The app generates an AI “embedding” (a numeric fingerprint) of each
+profile so it can find similar profiles or match recruiter
+searches.</li>
+<li>Job seekers can share a public link. Visitors who are logged in can
+<strong>suggest text edits</strong> (like Google Docs suggestions) or
+<strong>leave comments</strong> on individual sections.</li>
+<li>The profile owner sees all feedback in a dashboard and can accept or
+decline each item.</li>
+<li>Recruiters type what they’re looking for (“React developer with 3
+years experience in Bangalore”) and the AI finds the best-matching
+profiles.</li>
+<li>Recruiters can message candidates directly through the built-in
+mailbox.</li>
+</ol>
+<hr />
+<h2 id="technology-stack-plain-english">Technology Stack (Plain
+English)</h2>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr>
+<th>Technology</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Next.js 16</strong></td>
+<td>The framework that runs both the website (what you see) and the
+server (API logic) in one project</td>
+</tr>
+<tr>
+<td><strong>React 19</strong></td>
+<td>The library that builds the interactive user interface</td>
+</tr>
+<tr>
+<td><strong>TypeScript</strong></td>
+<td>JavaScript with type safety — catches bugs before the code runs</td>
+</tr>
+<tr>
+<td><strong>Tailwind CSS 4</strong></td>
+<td>A utility-first styling system — instead of writing CSS files, you
+add class names directly to HTML</td>
+</tr>
+<tr>
+<td><strong>shadcn/ui</strong></td>
+<td>Pre-built, good-looking UI components (buttons, dialogs, tabs,
+etc.)</td>
+</tr>
+<tr>
+<td><strong>PostgreSQL</strong></td>
+<td>The database where all data lives</td>
+</tr>
+<tr>
+<td><strong>Prisma 7.5</strong></td>
+<td>A tool that lets the code talk to the database using TypeScript
+instead of raw SQL</td>
+</tr>
+<tr>
+<td><strong>pgvector</strong></td>
+<td>A PostgreSQL extension that stores and searches AI embeddings
+(numeric profile fingerprints)</td>
+</tr>
+<tr>
+<td><strong>NextAuth 5</strong></td>
+<td>Handles login, signup, sessions, and Google OAuth</td>
+</tr>
+<tr>
+<td><strong>Google Generative AI</strong></td>
+<td>Converts profile text into 768-dimension vectors for semantic
+search</td>
+</tr>
+<tr>
+<td><strong>Ollama + llama3.2</strong></td>
+<td>A local AI model that reads uploaded PDF resumes and extracts
+structured data</td>
+</tr>
+<tr>
+<td><strong>Sonner</strong></td>
+<td>Shows toast notifications (“Saved!”, “Error!”)</td>
+</tr>
+<tr>
+<td><strong>Lucide</strong></td>
+<td>The icon library used throughout the UI</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="project-folder-structure">Project Folder Structure</h2>
+<pre><code>hirestream/
+├── prisma/                      ← Database schema &amp; seed data
+├── src/
+│   ├── app/                     ← Pages &amp; API routes (what the user sees + server logic)
+│   │   ├── (auth)/              ← Login, register, onboarding pages
+│   │   ├── (dashboard)/         ← Logged-in user pages (profile, discover, mailbox, etc.)
+│   │   ├── (public)/            ← Publicly accessible pages (shared profiles)
+│   │   └── api/                 ← Server-side API endpoints
+│   ├── components/              ← Reusable UI pieces
+│   │   ├── features/            ← Business-logic components (profile tabs, search bars, etc.)
+│   │   └── ui/                  ← Generic UI primitives (buttons, inputs, dialogs)
+│   ├── hooks/                   ← Custom React hooks
+│   ├── lib/                     ← Shared utilities (database, auth, AI helpers)
+│   └── types/                   ← TypeScript type definitions
+├── Configuration files          ← package.json, tsconfig, eslint, tailwind, etc.
+└── Environment files            ← .env, .env.local (secrets like API keys &amp; DB URL)</code></pre>
+<hr />
+<h2 id="root-configuration-files">Root Configuration Files</h2>
+<p>These files configure the project itself. You rarely edit them
+directly.</p>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>package.json</code></td>
+<td>Lists every dependency (library) the project needs, plus scripts
+like <code>npm run dev</code> (start the app) and
+<code>npm run build</code> (compile for production). Also tells Prisma
+where the seed script is.</td>
+</tr>
+<tr>
+<td><code>package-lock.json</code></td>
+<td>Auto-generated lock file that pins exact dependency versions so
+every developer gets identical installs.</td>
+</tr>
+<tr>
+<td><code>next.config.ts</code></td>
+<td>Next.js settings — marks certain packages as “server-only” so they
+don’t get bundled into browser code.</td>
+</tr>
+<tr>
+<td><code>tsconfig.json</code></td>
+<td>TypeScript compiler settings — path aliases (e.g.,
+<code>@/lib/db</code> → <code>src/lib/db</code>), strictness level,
+etc.</td>
+</tr>
+<tr>
+<td><code>prisma.config.ts</code></td>
+<td>Tells Prisma where to find the schema file.</td>
+</tr>
+<tr>
+<td><code>postcss.config.mjs</code></td>
+<td>PostCSS plugin list — enables Tailwind CSS processing.</td>
+</tr>
+<tr>
+<td><code>components.json</code></td>
+<td>Configuration for shadcn/ui — tells the CLI where to put generated
+components and what style to use.</td>
+</tr>
+<tr>
+<td><code>eslint.config.mjs</code></td>
+<td>Linting rules that catch common mistakes and enforce code
+style.</td>
+</tr>
+<tr>
+<td><code>.env</code> / <code>.env.local</code></td>
+<td>Secret environment variables: database URL, Google OAuth keys, AI
+API keys. <strong>Never committed to Git.</strong></td>
+</tr>
+<tr>
+<td><code>.env.example</code></td>
+<td>A template showing which environment variables are needed (without
+real values).</td>
+</tr>
+<tr>
+<td><code>.gitignore</code></td>
+<td>Tells Git which files to ignore (node_modules, .env, build output,
+etc.).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="prisma-database-layer"><code>prisma/</code> — Database
+Layer</h2>
+<h3
+id="prismaschema.prisma-the-database-blueprint"><code>prisma/schema.prisma</code>
+— The Database Blueprint</h3>
+<p>This single file defines <strong>every table</strong> in the
+database. Prisma reads it and generates TypeScript code so the app can
+query the DB safely.</p>
+<p><strong>Enums (fixed lists of allowed values):</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 33%" />
+<col style="width: 41%" />
+</colgroup>
+<thead>
+<tr>
+<th>Enum</th>
+<th>Values</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Role</code></td>
+<td>JOB_SEEKER, RECRUITER, ADMIN</td>
+<td>What kind of user this is</td>
+</tr>
+<tr>
+<td><code>Visibility</code></td>
+<td>PUBLIC, PRIVATE, HIDDEN</td>
+<td>Who can see a profile</td>
+</tr>
+<tr>
+<td><code>CommentStatus</code></td>
+<td>PENDING, ACCEPTED, DECLINED</td>
+<td>Review workflow for comments &amp; suggestions</td>
+</tr>
+<tr>
+<td><code>SectionType</code></td>
+<td>EXPERIENCE, PROJECT, INTERNSHIP, ACADEMIC, EXTRA_CURRICULAR,
+CODECHEF</td>
+<td>Which profile section something belongs to</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Models (database tables):</strong></p>
+<table>
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr>
+<th>Model</th>
+<th>What it stores</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>User</code></td>
+<td>Core user record — name, email, hashed password, active
+<code>role</code>, <code>roles</code> array (all granted roles), image.
+Every other model links back here. A user can hold multiple roles (e.g.,
+both JOB_SEEKER and RECRUITER).</td>
+</tr>
+<tr>
+<td><code>Account</code></td>
+<td>OAuth provider connections (e.g., Google). Managed by NextAuth.</td>
+</tr>
+<tr>
+<td><code>Session</code></td>
+<td>Active login sessions. Managed by NextAuth.</td>
+</tr>
+<tr>
+<td><code>VerificationToken</code></td>
+<td>Email verification tokens. Managed by NextAuth.</td>
+</tr>
+<tr>
+<td><code>Profile</code></td>
+<td>A job seeker’s profile — headline, bio, location, social links,
+skills, visibility setting, share token, and a 768-dimension vector
+embedding for AI search.</td>
+</tr>
+<tr>
+<td><code>Experience</code></td>
+<td>Work experience entries — company, role, dates, location,
+description. Linked to a Profile.</td>
+</tr>
+<tr>
+<td><code>Project</code></td>
+<td>Side projects — name, description, tech stack array, links. Linked
+to a Profile.</td>
+</tr>
+<tr>
+<td><code>Internship</code></td>
+<td>Internship records — company, role, dates, stipend, description.
+Linked to a Profile.</td>
+</tr>
+<tr>
+<td><code>AcademicBackground</code></td>
+<td>Education — institution, degree, field, GPA, years. Linked to a
+Profile.</td>
+</tr>
+<tr>
+<td><code>ExtraCurricular</code></td>
+<td>Activities — name, role, description. Linked to a Profile.</td>
+</tr>
+<tr>
+<td><code>CodeChefProfile</code></td>
+<td>Competitive programming stats — username, rating, stars, problems
+solved. Linked to a Profile.</td>
+</tr>
+<tr>
+<td><code>Comment</code></td>
+<td>A peer review comment on someone’s profile. Can target a specific
+section item (e.g., a particular job experience). Supports threading
+(replies) and has a PENDING → ACCEPTED/DECLINED workflow.</td>
+</tr>
+<tr>
+<td><code>CommentHistory</code></td>
+<td>Every time a comment is edited, the old version is saved here for
+audit.</td>
+</tr>
+<tr>
+<td><code>Suggestion</code></td>
+<td>An inline text suggestion — “change this sentence to that sentence.”
+Tracks the exact character offsets so the owner can accept and
+auto-apply the change.</td>
+</tr>
+<tr>
+<td><code>Conversation</code></td>
+<td>A chat thread between two users (typically recruiter ↔︎
+candidate).</td>
+</tr>
+<tr>
+<td><code>Message</code></td>
+<td>An individual message within a conversation.</td>
+</tr>
+<tr>
+<td><code>Job</code></td>
+<td>A job posting by a recruiter — title, company, description,
+requirements, salary range, location, remote flag, and a vector
+embedding for AI matching.</td>
+</tr>
+<tr>
+<td><code>ResumeUpload</code></td>
+<td>History of uploaded resumes — file URL, parsed JSON data,
+status.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="prismaseed.ts-test-data-generator"><code>prisma/seed.ts</code> —
+Test Data Generator</h3>
+<p>A script that creates <strong>~35 realistic job seeker
+profiles</strong> and <strong>~5 recruiter accounts</strong> with Indian
+tech professional names, companies, skills, and locations. Used during
+development so the app isn’t empty. Run it with
+<code>npx tsx prisma/seed.ts</code>.</p>
+<hr />
+<h2 id="srcapp-pages-routes"><code>src/app/</code> — Pages &amp;
+Routes</h2>
+<p>Next.js uses a <strong>file-system router</strong>: each folder under
+<code>src/app/</code> becomes a URL. A <code>page.tsx</code> file
+renders the page; a <code>route.ts</code> file handles API requests.</p>
+<h3 id="root-files">Root Files</h3>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>layout.tsx</code></td>
+<td>The outermost wrapper applied to <strong>every</strong> page. Sets
+up the HTML shell, loads fonts, wraps everything in a session provider
+(for auth) and a theme provider (for dark mode), and mounts the toast
+notification system.</td>
+</tr>
+<tr>
+<td><code>page.tsx</code></td>
+<td>The root page (<code>/</code>). Checks who you are and redirects:
+admins → <code>/admin</code>, recruiters →
+<code>/recruiter/search</code>, job seekers → <code>/profile</code>,
+guests → <code>/login</code>.</td>
+</tr>
+<tr>
+<td><code>globals.css</code></td>
+<td>Global styles — Tailwind imports, CSS custom properties for the
+color theme (light &amp; dark mode), and utility classes like
+<code>.card-clean</code> and <code>.section-clean</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="srcappauth-authentication-pages"><code>src/app/(auth)/</code> —
+Authentication Pages</h3>
+<p>The parentheses in <code>(auth)</code> make it a <strong>route
+group</strong> — it organizes files without affecting the URL. So
+<code>(auth)/login/page.tsx</code> renders at <code>/login</code>, not
+<code>/auth/login</code>.</p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it renders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>login/page.tsx</code></td>
+<td>The login page — email + password form, plus a “Sign in with Google”
+button. On success, redirects to the dashboard.</td>
+</tr>
+<tr>
+<td><code>register/page.tsx</code></td>
+<td>The registration page — pick your role (Job Seeker or Recruiter),
+enter name, email, password. Creates the account and logs you in.</td>
+</tr>
+<tr>
+<td><code>onboarding/page.tsx</code></td>
+<td>Shown after first Google sign-in. Google OAuth doesn’t know your
+role, so this page asks “Are you a Job Seeker or Recruiter?” and sets it
+up.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3
+id="srcappdashboard-logged-in-user-pages"><code>src/app/(dashboard)/</code>
+— Logged-In User Pages</h3>
+<p>Everything inside <code>(dashboard)</code> shares a sidebar layout
+with navigation links.</p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it renders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>layout.tsx</code></td>
+<td>The dashboard shell — a collapsible sidebar on the left (with
+navigation items that change based on your role) and the page content on
+the right.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="profile-section-profile">Profile Section
+(<code>/profile</code>)</h4>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it renders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>profile/page.tsx</code></td>
+<td>The main profile editing hub. Shows a header (name, headline,
+avatar, share link), a suggestion badge (if peers have suggested
+changes), and tabbed sections for experience, projects, internships,
+education, extra-curriculars, CodeChef, and miscellaneous.</td>
+</tr>
+<tr>
+<td><code>profile/loading.tsx</code></td>
+<td>A skeleton loading animation shown while the profile data is being
+fetched.</td>
+</tr>
+<tr>
+<td><code>profile/comments/page.tsx</code></td>
+<td>“Peer Reviews” page — lists all comments others have left on your
+profile. You can accept, decline, or reply to each one.</td>
+</tr>
+<tr>
+<td><code>profile/suggestions/page.tsx</code></td>
+<td>“Suggestions” page — lists all inline text suggestions. You can
+accept (auto-applies the change to your profile), decline, or delete
+each one.</td>
+</tr>
+<tr>
+<td><code>profile/settings/page.tsx</code></td>
+<td>Profile settings — change visibility (public/private/hidden),
+regenerate your share link, update headline/bio/location/social
+links.</td>
+</tr>
+<tr>
+<td><code>profile/print/page.tsx</code></td>
+<td>A clean, print-friendly version of your profile for generating
+PDFs.</td>
+</tr>
+<tr>
+<td><code>profile/print/PrintButton.tsx</code></td>
+<td>A small client-side component that triggers the browser’s print
+dialog.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="discover-discover">Discover (<code>/discover</code>)</h4>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it renders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>discover/page.tsx</code></td>
+<td>“Discover People” — search for other job seekers with similar
+backgrounds. Uses AI vector similarity when the embedding API is
+available, falls back to text search otherwise. Shows profile cards with
+match scores.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="mailbox-mailbox">Mailbox (<code>/mailbox</code>)</h4>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it renders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mailbox/page.tsx</code></td>
+<td>Lists all your conversations. Each row shows the other person’s name
+and the last message preview.</td>
+</tr>
+<tr>
+<td><code>mailbox/[id]/page.tsx</code></td>
+<td>A single conversation thread — shows message history and a text
+input to send new messages. The <code>[id]</code> is a dynamic segment
+(the conversation ID).</td>
+</tr>
+</tbody>
+</table>
+<h4 id="recruiter-pages-recruiter">Recruiter Pages
+(<code>/recruiter</code>)</h4>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it renders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>recruiter/search/page.tsx</code></td>
+<td>Talent search — type a plain-English description (“senior React
+developer in Mumbai”) and the AI finds the best-matching candidates
+using vector similarity.</td>
+</tr>
+<tr>
+<td><code>recruiter/jobs/page.tsx</code></td>
+<td>Job management — create, edit, and delete job postings.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="admin-pages-admin">Admin Pages (<code>/admin</code>)</h4>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it renders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>admin/page.tsx</code></td>
+<td>Admin dashboard — shows platform statistics (total users, profiles,
+jobs, messages).</td>
+</tr>
+<tr>
+<td><code>admin/users/page.tsx</code></td>
+<td>User management — list all users with role badges, edit roles, or
+delete accounts.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3
+id="srcapppublic-publicly-accessible-pages"><code>src/app/(public)/</code>
+— Publicly Accessible Pages</h3>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it renders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>layout.tsx</code></td>
+<td>A simpler layout for public pages — a top navigation bar with the
+HireStream logo, a back button, and a “Dashboard” or “Sign in” link. No
+sidebar.</td>
+</tr>
+<tr>
+<td><code>p/[token]/page.tsx</code></td>
+<td><strong>The public profile page</strong> — the most feature-rich
+page in the app. When someone shares their profile link (e.g.,
+<code>/p/abc123</code>), this page renders it. <strong>Key
+features:</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>• Hero section with name, headline, location, social links</td>
+</tr>
+<tr>
+<td></td>
+<td>• All profile sections (experience, projects, internships,
+education, extra-curriculars)</td>
+</tr>
+<tr>
+<td></td>
+<td>• <strong>For logged-in visitors (not the owner):</strong> hover
+over any sentence to see a highlight; click to suggest an edit; click
+any sub-section card to leave a comment</td>
+</tr>
+<tr>
+<td></td>
+<td>• <strong>Feedback sidebar</strong> on the right (like Google Docs)
+showing all your suggestions and comments with edit/withdraw
+options</td>
+</tr>
+<tr>
+<td></td>
+<td>• Curved arrow connectors from sidebar items to the corresponding
+profile section</td>
+</tr>
+<tr>
+<td></td>
+<td>• Real-time updates — new suggestions/comments appear in the sidebar
+instantly</td>
+</tr>
+<tr>
+<td></td>
+<td>• <strong>For the profile owner:</strong> a banner saying “This is
+how others see your profile” with an “Edit Profile” link</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="srcappapi-server-side-api-endpoints"><code>src/app/api/</code> —
+Server-Side API Endpoints</h3>
+<p>These are the “backend” — they receive requests, talk to the
+database, and return JSON responses. They are <strong>never
+visible</strong> to the user directly.</p>
+<h4 id="authentication-apis">Authentication APIs</h4>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 32%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Methods</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auth/[...nextauth]/route.ts</code></td>
+<td>GET, POST</td>
+<td>The NextAuth catch-all handler. Manages login sessions, OAuth
+callbacks, and token refresh.</td>
+</tr>
+<tr>
+<td><code>auth/register/route.ts</code></td>
+<td>POST</td>
+<td>Creates a new user account — hashes the password, assigns the role
+and roles array, creates a Profile if Job Seeker.</td>
+</tr>
+<tr>
+<td><code>auth/onboarding/route.ts</code></td>
+<td>GET, POST</td>
+<td>GET checks if onboarding is needed; POST sets the user’s initial
+role and creates their profile.</td>
+</tr>
+<tr>
+<td><code>auth/switch-role/route.ts</code></td>
+<td>POST</td>
+<td>Switches the user’s active role. If the target role is new, adds it
+to their <code>roles</code> array. Creates a profile on-demand when
+switching to JOB_SEEKER for the first time. Returns the updated role and
+roles.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="profile-apis">Profile APIs</h4>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 32%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Methods</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>profile/settings/route.ts</code></td>
+<td>GET, PATCH</td>
+<td>Read or update profile metadata — name, headline, bio, location,
+social links, skills, visibility. Also regenerates the AI embedding when
+content changes.</td>
+</tr>
+<tr>
+<td><code>profile/share/[token]/route.ts</code></td>
+<td>GET</td>
+<td>Fetches a full profile by its share token (used internally).</td>
+</tr>
+<tr>
+<td><code>profile/experience/route.ts</code></td>
+<td>GET, POST</td>
+<td>List all experiences or add a new one.</td>
+</tr>
+<tr>
+<td><code>profile/experience/[id]/route.ts</code></td>
+<td>PATCH, DELETE</td>
+<td>Update or delete a specific experience entry.</td>
+</tr>
+<tr>
+<td><code>profile/project/route.ts</code></td>
+<td>GET, POST</td>
+<td>List all projects or add a new one.</td>
+</tr>
+<tr>
+<td><code>profile/project/[id]/route.ts</code></td>
+<td>PATCH, DELETE</td>
+<td>Update or delete a specific project.</td>
+</tr>
+<tr>
+<td><code>profile/internship/route.ts</code></td>
+<td>GET, POST</td>
+<td>List all internships or add a new one.</td>
+</tr>
+<tr>
+<td><code>profile/internship/[id]/route.ts</code></td>
+<td>PATCH, DELETE</td>
+<td>Update or delete a specific internship.</td>
+</tr>
+<tr>
+<td><code>profile/academic/route.ts</code></td>
+<td>GET, POST</td>
+<td>List all education entries or add a new one.</td>
+</tr>
+<tr>
+<td><code>profile/academic/[id]/route.ts</code></td>
+<td>PATCH, DELETE</td>
+<td>Update or delete a specific education entry.</td>
+</tr>
+<tr>
+<td><code>profile/extra-curricular/route.ts</code></td>
+<td>GET, POST</td>
+<td>List all extra-curricular activities or add a new one.</td>
+</tr>
+<tr>
+<td><code>profile/extra-curricular/[id]/route.ts</code></td>
+<td>PATCH, DELETE</td>
+<td>Update or delete a specific extra-curricular activity.</td>
+</tr>
+<tr>
+<td><code>profile/codechef/route.ts</code></td>
+<td>POST</td>
+<td>Sync CodeChef competitive programming data for the profile.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="search-discovery-apis">Search &amp; Discovery APIs</h4>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 32%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Methods</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>search/route.ts</code></td>
+<td>GET</td>
+<td>Recruiter talent search — converts the query into an AI embedding
+and finds the closest-matching profiles using vector distance.</td>
+</tr>
+<tr>
+<td><code>discover/route.ts</code></td>
+<td>GET</td>
+<td>Job seeker discovery — finds profiles similar to yours using vector
+similarity, with a text-based fallback when the AI API is
+unavailable.</td>
+</tr>
+<tr>
+<td><code>upload/route.ts</code></td>
+<td>POST</td>
+<td>Resume upload — accepts a PDF, extracts text using
+<code>unpdf</code>, sends it to Ollama’s llama3.2 model to extract
+structured data (name, experience, skills, etc.), and returns the parsed
+result.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="peer-review-suggestion-apis">Peer Review &amp; Suggestion
+APIs</h4>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 32%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Methods</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>comments/route.ts</code></td>
+<td>GET, POST</td>
+<td>GET: fetch comments for a profile (owner sees all; others see only
+accepted). POST: create a new comment on a specific profile
+section/item.</td>
+</tr>
+<tr>
+<td><code>comments/[id]/route.ts</code></td>
+<td>PATCH, DELETE</td>
+<td>PATCH: owner can accept/decline; author can edit (old version saved
+to history). DELETE: author or owner can remove.</td>
+</tr>
+<tr>
+<td><code>suggestions/route.ts</code></td>
+<td>GET, POST</td>
+<td>GET: fetch suggestions (owner sees all; others see only their own).
+POST: create an inline text suggestion with character offsets.</td>
+</tr>
+<tr>
+<td><code>suggestions/[id]/route.ts</code></td>
+<td>PATCH, DELETE</td>
+<td>PATCH: owner can accept (auto-applies the text change to the
+profile!) or decline; author can edit their suggestion text. DELETE:
+author or owner can remove.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="messaging-apis">Messaging APIs</h4>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 32%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Methods</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>conversations/route.ts</code></td>
+<td>POST</td>
+<td>Create or find an existing conversation between two users.</td>
+</tr>
+<tr>
+<td><code>messages/route.ts</code></td>
+<td>GET, POST</td>
+<td>GET: fetch messages in a conversation. POST: send a new
+message.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="job-apis">Job APIs</h4>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 32%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Methods</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>jobs/route.ts</code></td>
+<td>GET, POST</td>
+<td>GET: list jobs (optionally filtered). POST: create a job posting
+with an AI embedding for matching.</td>
+</tr>
+<tr>
+<td><code>jobs/[id]/route.ts</code></td>
+<td>PATCH, DELETE</td>
+<td>Update or delete a job posting.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="admin-apis">Admin APIs</h4>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 32%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Methods</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>admin/stats/route.ts</code></td>
+<td>GET</td>
+<td>Returns platform-wide counts (users, profiles, jobs, messages,
+etc.).</td>
+</tr>
+<tr>
+<td><code>admin/users/route.ts</code></td>
+<td>GET</td>
+<td>List all users with their profiles.</td>
+</tr>
+<tr>
+<td><code>admin/users/[id]/route.ts</code></td>
+<td>PATCH, DELETE</td>
+<td>Change a user’s role or delete their account.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="srccomponents-reusable-ui-pieces"><code>src/components/</code> —
+Reusable UI Pieces</h2>
+<h3
+id="srccomponentsui-generic-ui-primitives"><code>src/components/ui/</code>
+— Generic UI Primitives</h3>
+<p>These are <strong>shadcn/ui</strong> components — pre-styled building
+blocks with no business logic. They look consistent across the entire
+app.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>avatar.tsx</code></td>
+<td>A circular image with a fallback showing initials.</td>
+</tr>
+<tr>
+<td><code>badge.tsx</code></td>
+<td>A small colored label (e.g., “React”, “PENDING”, “ACCEPTED”).</td>
+</tr>
+<tr>
+<td><code>button.tsx</code></td>
+<td>A button with variants: default, outline, ghost, destructive,
+link.</td>
+</tr>
+<tr>
+<td><code>card.tsx</code></td>
+<td>A bordered container with header, content, and footer slots.</td>
+</tr>
+<tr>
+<td><code>checkbox.tsx</code></td>
+<td>A checkbox input with a checkmark animation.</td>
+</tr>
+<tr>
+<td><code>dialog.tsx</code></td>
+<td>A modal overlay that dims the background and shows content in the
+center.</td>
+</tr>
+<tr>
+<td><code>input.tsx</code></td>
+<td>A styled text input field.</td>
+</tr>
+<tr>
+<td><code>label.tsx</code></td>
+<td>A form label that associates with an input.</td>
+</tr>
+<tr>
+<td><code>select.tsx</code></td>
+<td>A dropdown selector with search and scroll support.</td>
+</tr>
+<tr>
+<td><code>separator.tsx</code></td>
+<td>A horizontal or vertical line to visually divide content.</td>
+</tr>
+<tr>
+<td><code>sheet.tsx</code></td>
+<td>A panel that slides in from the side (like a drawer).</td>
+</tr>
+<tr>
+<td><code>sidebar.tsx</code></td>
+<td>The layout primitives for the dashboard sidebar — provider, trigger,
+content, menu items, etc.</td>
+</tr>
+<tr>
+<td><code>skeleton.tsx</code></td>
+<td>A pulsing placeholder shown while content is loading.</td>
+</tr>
+<tr>
+<td><code>sonner.tsx</code></td>
+<td>Wrapper around the Sonner toast library for notifications.</td>
+</tr>
+<tr>
+<td><code>tabs.tsx</code></td>
+<td>Tabbed navigation — click a tab to show its content panel.</td>
+</tr>
+<tr>
+<td><code>textarea.tsx</code></td>
+<td>A multi-line text input.</td>
+</tr>
+<tr>
+<td><code>tooltip.tsx</code></td>
+<td>A small popup that appears on hover to explain something.</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="srccomponentsfeatures-business-logic-components"><code>src/components/features/</code>
+— Business-Logic Components</h3>
+<p>These components contain the actual app logic — they fetch data,
+handle user actions, and compose the UI primitives.</p>
+<h4 id="appsidebar.tsx-dashboard-navigation"><code>AppSidebar.tsx</code>
+— Dashboard Navigation</h4>
+<p>The collapsible sidebar shown on all dashboard pages. Contains
+different navigation links based on your active role:</p>
+<ul>
+<li><strong>Job Seekers</strong> see: Profile, Discover, Peer Reviews,
+Suggestions, Mailbox, Settings</li>
+<li><strong>Recruiters</strong> see: Search Talent, My Jobs,
+Mailbox</li>
+<li><strong>Admins</strong> see: Dashboard, Users, Mailbox</li>
+</ul>
+<p>Also shows the user’s avatar, name, current role badge, <strong>Role
+Switcher</strong> (to toggle between Job Seeker and Recruiter), and a
+logout button at the bottom.</p>
+<h4 id="roleswitcher.tsx-role-switching"><code>RoleSwitcher.tsx</code> —
+Role Switching</h4>
+<p>A dropdown button in the sidebar footer that lets users switch
+between roles. If the user already has the other role, it says “Switch
+to [role]”. If they don’t have it yet, it says “Add [role] Role” —
+clicking it grants the new role and switches to it in one step. The
+session/JWT is refreshed and the page redirects to the appropriate
+dashboard.</p>
+<h4
+id="featuresprofile-profile-editing-components"><code>features/profile/</code>
+— Profile Editing Components</h4>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ProfileHeader.tsx</code></td>
+<td>The top section of the profile page — shows avatar, name (editable
+inline with a pencil icon), headline, location, social links, visibility
+badge, share button, and resume upload.</td>
+</tr>
+<tr>
+<td><code>ProfileTabs.tsx</code></td>
+<td>Tab bar that switches between profile sections: Experience,
+Projects, Internships, Education, Extra-Curricular, CodeChef, Misc.</td>
+</tr>
+<tr>
+<td><code>ExperienceTab.tsx</code></td>
+<td>CRUD interface for work experience — list existing entries,
+add/edit/delete with a form (company, role, dates, location,
+description).</td>
+</tr>
+<tr>
+<td><code>ProjectsTab.tsx</code></td>
+<td>CRUD interface for projects — name, description, tech stack
+(comma-separated), live URL, repo URL.</td>
+</tr>
+<tr>
+<td><code>InternshipTab.tsx</code></td>
+<td>CRUD interface for internships — company, role, dates, stipend,
+description.</td>
+</tr>
+<tr>
+<td><code>AcademicTab.tsx</code></td>
+<td>CRUD interface for education — institution, degree, field of study,
+GPA, start/end years.</td>
+</tr>
+<tr>
+<td><code>ExtraCurricularTab.tsx</code></td>
+<td>CRUD interface for activities — activity name, role,
+description.</td>
+</tr>
+<tr>
+<td><code>CodeChefTab.tsx</code></td>
+<td>Displays CodeChef competitive programming stats (read-only, synced
+from CodeChef).</td>
+</tr>
+<tr>
+<td><code>MiscTab.tsx</code></td>
+<td>A catch-all tab for displaying any additional profile sections.</td>
+</tr>
+<tr>
+<td><code>CommentCard.tsx</code></td>
+<td>Renders a single peer review comment with author info, timestamp,
+content, accept/decline buttons (for owner), and reply thread.</td>
+</tr>
+<tr>
+<td><code>ProfileSettingsForm.tsx</code></td>
+<td>The settings form for visibility, headline, bio, location, social
+links, and skills.</td>
+</tr>
+</tbody>
+</table>
+<h4
+id="featuressuggestions-inline-suggestion-system"><code>features/suggestions/</code>
+— Inline Suggestion System</h4>
+<p>This is the <strong>Google Docs-style</strong> suggestion system.</p>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TextSelectionSuggest.tsx</code></td>
+<td>Wraps a text block on the public profile. <strong>Hover</strong>
+over a sentence → it highlights. <strong>Click</strong> a sentence →
+opens a form to suggest a replacement. <strong>Select text</strong> with
+mouse → shows a floating “Suggest edit” button. Submits to the
+suggestions API and updates the sidebar in real-time. When the sidebar
+hovers this section, it glows with a ring highlight.</td>
+</tr>
+<tr>
+<td><code>SuggestionIndicator.tsx</code></td>
+<td>A small amber badge that appears below text that has pending
+suggestions. Shows count like “2 pending suggestions”. Click to expand
+and see original → suggested text diffs.</td>
+</tr>
+<tr>
+<td><code>SuggestionCard.tsx</code></td>
+<td>Used on the owner’s Suggestions dashboard page. Shows a full
+suggestion with original text (red strikethrough) → suggested text
+(green), author info, timestamp, and Accept/Decline/Delete buttons.
+Accepting auto-applies the change to the profile.</td>
+</tr>
+<tr>
+<td><code>SuggestionBadge.tsx</code></td>
+<td>A minimal expandable badge shown on the dashboard profile page.
+Shows “3 pending / 7 total” suggestions. Click to expand a preview list
+with links to the full suggestions page.</td>
+</tr>
+<tr>
+<td><code>SuggestButton.tsx</code></td>
+<td>A per-field suggest button (pencil icon). Click to open a form
+showing current text and a textarea for the replacement. An alternative
+to text selection for shorter fields.</td>
+</tr>
+<tr>
+<td><code>SuggestionsSidebar.tsx</code></td>
+<td>The original suggestions-only sidebar (now superseded by
+FeedbackSidebar for public profiles, but still available).</td>
+</tr>
+</tbody>
+</table>
+<h4
+id="featurespublic-public-profile-components"><code>features/public/</code>
+— Public Profile Components</h4>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ProfileFeedbackContext.tsx</code></td>
+<td>A React context (shared state container) that all feedback
+components on the public profile page share. Holds the list of sidebar
+items, an <code>addItem</code> function for real-time updates, and a
+<code>highlightedId</code> for the arrow connector system.</td>
+</tr>
+<tr>
+<td><code>FeedbackSidebar.tsx</code></td>
+<td>The <strong>unified right-side panel</strong> on public profiles
+(like Google Docs). Shows both suggestions AND comments in tabs (All /
+Suggestions / Comments). Each item shows its status, section type, and
+content. <strong>Pending items</strong> can be edited or withdrawn.
+<strong>Hover</strong> over an item → draws a curved dashed arrow from
+the sidebar to the corresponding profile section and highlights it.
+<strong>Click</strong> → scrolls to and briefly highlights the target
+section.</td>
+</tr>
+<tr>
+<td><code>SubSectionComment.tsx</code></td>
+<td>Wraps each individual profile card (a specific job experience, a
+specific project, etc.). On <strong>hover</strong>, shows a subtle
+“Comment” badge in the corner. On <strong>click</strong>, opens an
+inline comment form. The comment is linked to the specific item via
+<code>sectionItemId</code> so the sidebar can map it back with an arrow
+connector.</td>
+</tr>
+<tr>
+<td><code>PublicCommentSection.tsx</code></td>
+<td>A full comment section with threading — used for displaying accepted
+comments publicly. Includes a section filter dropdown, comment form, and
+nested reply threads.</td>
+</tr>
+</tbody>
+</table>
+<h4
+id="featuresdiscover-profile-discovery"><code>features/discover/</code>
+— Profile Discovery</h4>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DiscoverSearch.tsx</code></td>
+<td>The search interface on the Discover page. Type a query, hit search,
+and see matching profiles ranked by similarity score. Uses AI vector
+search when available, text search as fallback. Each result shows a
+profile card with name, headline, skills, and a link to their public
+profile.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="featuresmessaging-chat-system"><code>features/messaging/</code>
+— Chat System</h4>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ConversationView.tsx</code></td>
+<td>The chat message thread. Shows messages with timestamps, sender
+alignment (your messages on the right, theirs on the left), and a text
+input with send button at the bottom. Auto-scrolls to the latest
+message.</td>
+</tr>
+</tbody>
+</table>
+<h4
+id="featuresrecruiter-recruiter-tools"><code>features/recruiter/</code>
+— Recruiter Tools</h4>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SearchBar.tsx</code></td>
+<td>The talent search input — type a natural language description and
+get AI-ranked candidate results with match scores and profile
+previews.</td>
+</tr>
+<tr>
+<td><code>CreateJobDialog.tsx</code></td>
+<td>A dialog form for creating a new job posting — title, company,
+description, requirements, location, salary range, remote flag.</td>
+</tr>
+<tr>
+<td><code>JobActions.tsx</code></td>
+<td>Edit and delete buttons for job postings, with confirmation
+dialogs.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="featuresadmin-admin-tools"><code>features/admin/</code> — Admin
+Tools</h4>
+<table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UserActions.tsx</code></td>
+<td>Action buttons on each user row in the admin panel — change role
+dropdown and delete button with confirmation.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="srclib-shared-utilities"><code>src/lib/</code> — Shared
+Utilities</h2>
+<p>These are the “plumbing” files that multiple parts of the app
+use.</p>
+<table>
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>db.ts</code></td>
+<td>Creates a single shared database connection (Prisma client) using
+the PostgreSQL adapter. Every API route and server component imports
+<code>db</code> from here to query the database.</td>
+</tr>
+<tr>
+<td><code>auth.ts</code></td>
+<td>The full NextAuth configuration — sets up two login providers
+(email/password via Credentials, and Google OAuth), configures JWT
+sessions, defines callbacks that include both <code>role</code> (active)
+and <code>roles</code> (all granted) in the session, and uses
+PrismaAdapter to store auth data in the database. The JWT callback
+refreshes from the database on sign-in and session updates (e.g., after
+role switch).</td>
+</tr>
+<tr>
+<td><code>auth.config.ts</code></td>
+<td>A lightweight version of the auth config that works in Next.js
+middleware (which runs on the “edge” and can’t use full Node.js). Passes
+both <code>role</code> and <code>roles</code> through JWT →
+session.</td>
+</tr>
+<tr>
+<td><code>utils.ts</code></td>
+<td>Small helper functions — <code>cn()</code> merges CSS class names,
+<code>toBool()</code> converts strings to booleans,
+<code>safeDate()</code> safely parses date strings.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="srclibai-ai-machine-learning"><code>src/lib/ai/</code> — AI
+&amp; Machine Learning</h3>
+<table>
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>embeddings.ts</code></td>
+<td>Connects to Google’s <code>text-embedding-004</code> model. Takes a
+piece of text and returns a 768-number array (vector) that captures its
+meaning. Used to make profiles and queries searchable by meaning, not
+just keywords.</td>
+</tr>
+<tr>
+<td><code>gemini.ts</code></td>
+<td>Initializes the Google Generative AI client (Gemini model). Used as
+a foundation for the embedding and other AI functions.</td>
+</tr>
+<tr>
+<td><code>resume-parser.ts</code></td>
+<td>The resume upload pipeline: (1) extracts text from the uploaded PDF
+using <code>unpdf</code>, (2) sends the text to a local Ollama llama3.2
+model with a structured prompt, (3) parses the AI’s JSON response into
+typed fields (name, email, experience, skills, etc.).</td>
+</tr>
+<tr>
+<td><code>profile-embedding.ts</code></td>
+<td>Takes all of a user’s profile data (headline, bio, experience
+descriptions, project descriptions, skills, education, etc.),
+concatenates it into a single text block, and generates a vector
+embedding. This embedding is stored in the database and used for
+similarity search.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="srchooks-custom-react-hooks"><code>src/hooks/</code> — Custom
+React Hooks</h2>
+<table>
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>use-mobile.ts</code></td>
+<td>A hook that returns <code>true</code> when the browser window is
+narrower than 768px. Used by the sidebar to auto-collapse on mobile
+devices.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="srctypes-typescript-type-definitions"><code>src/types/</code> —
+TypeScript Type Definitions</h2>
+<table>
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>index.ts</code></td>
+<td>Defines shared types used across the app: <code>FullProfile</code>
+(a profile with all its related data — experiences, projects, etc.),
+<code>ProfileCompleteness</code> (tracks which sections are filled out),
+and <code>ParsedResume</code> (the structured output from resume
+parsing).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2
+id="srcmiddleware.ts-route-protection"><code>src/middleware.ts</code> —
+Route Protection</h2>
+<p>This file runs <strong>before every page request</strong> and acts as
+a security gate:</p>
+<ol type="1">
+<li><strong>Public paths</strong> (<code>/login</code>,
+<code>/register</code>, <code>/onboarding</code>, <code>/p/*</code>) →
+anyone can access, no check needed.</li>
+<li><strong>Authenticated paths</strong> → if you’re not logged in,
+redirect to <code>/login</code>.</li>
+<li><strong>Role-based paths</strong> — checks the user’s
+<strong><code>roles</code> array</strong> (not just active role), so
+dual-role users can access both dashboards:
+<ul>
+<li><code>/recruiter/*</code> → requires RECRUITER or ADMIN in roles
+array</li>
+<li><code>/profile/*</code> → requires JOB_SEEKER in roles array</li>
+<li><code>/admin/*</code> → requires ADMIN in roles array</li>
+</ul></li>
+<li>If you’re logged in but don’t have the required role, you get
+redirected to your appropriate home page.</li>
+</ol>
+<hr />
+<h2 id="key-features-explained">Key Features Explained</h2>
+<h3 id="multi-role-system">1. Multi-Role System</h3>
+<p>A single user can be both a Job Seeker and a Recruiter. Here’s how it
+works:</p>
+<ul>
+<li><strong>Registration/Onboarding</strong>: You pick one role to
+start.</li>
+<li><strong>Adding a second role</strong>: Click “Switch Role” in the
+sidebar → “Add [Role] Role”. The system grants it instantly.</li>
+<li><strong>Switching</strong>: Once you have both roles, the switcher
+toggles between them. Your active role determines which dashboard and
+navigation you see.</li>
+<li><strong>On-demand setup</strong>: When you switch to Job Seeker for
+the first time, a profile is automatically created. No extra steps
+needed.</li>
+<li><strong>Middleware</strong>: Route guards check your
+<code>roles</code> array (all roles you hold), not just your active role
+— so dual-role users can navigate freely between both dashboards.</li>
+<li><strong>Google OAuth</strong>: Works for both roles. After first
+Google sign-in, onboarding asks which role you want. You can add the
+other role later via the sidebar switcher.</li>
+</ul>
+<h3 id="the-suggestion-system-google-docs-style">2. The Suggestion
+System (Google Docs-style)</h3>
+<p>When you visit a peer’s public profile:</p>
+<ul>
+<li><strong>Hover</strong> over any sentence in their descriptions → the
+sentence highlights in a soft color</li>
+<li><strong>Click</strong> the sentence → a form appears where you type
+your suggested replacement</li>
+<li><strong>Select text</strong> with your mouse → a floating “Suggest
+edit” button appears</li>
+</ul>
+<p>Your suggestion is saved with exact character positions. The profile
+owner sees it on their Suggestions dashboard and can
+<strong>Accept</strong> (which automatically rewrites that text in their
+profile) or <strong>Decline</strong>.</p>
+<h3 id="the-feedback-sidebar">3. The Feedback Sidebar</h3>
+<p>On public profiles, a sidebar appears on the right (like Google Docs)
+showing all your suggestions and comments on this profile. It has:</p>
+<ul>
+<li><strong>Tabs</strong> to filter: All, Suggestions, Comments</li>
+<li><strong>Pending count</strong> badge</li>
+<li><strong>Edit/Withdraw</strong> actions for your pending items</li>
+<li><strong>Arrow connectors</strong> — hover over any sidebar item and
+a dashed curved line connects it to the exact profile section it refers
+to, which also glows with a highlight</li>
+</ul>
+<h3 id="ai-powered-search">4. AI-Powered Search</h3>
+<p>Profiles and job postings are converted into 768-dimensional vectors
+(numeric fingerprints of meaning). When a recruiter searches “Python
+developer with ML experience,” that query is also converted to a vector,
+and the database finds the profiles whose vectors are closest — meaning
+they are most semantically similar, even if they use different
+words.</p>
+<h3 id="resume-parsing">5. Resume Parsing</h3>
+<p>Upload a PDF resume, and a local AI model (llama3.2 via Ollama) reads
+it and extracts structured data — name, contact info, work experience,
+projects, education, skills — which auto-populates your profile
+sections.</p>
+<hr />
+<h2 id="how-data-flows-through-the-app">How Data Flows Through the
+App</h2>
+<pre><code>User Action (browser)
+    ↓
+Page Component (src/app/**/page.tsx)
+    ↓
+API Route (src/app/api/**/route.ts)
+    ↓
+Prisma Client (src/lib/db.ts)
+    ↓
+PostgreSQL Database</code></pre>
+<p>For real-time sidebar updates (suggestions &amp; comments):</p>
+<pre><code>User submits suggestion/comment
+    ↓
+Component calls fetch() to API
+    ↓
+API creates record in DB, returns it
+    ↓
+Component calls addItem() on ProfileFeedbackContext
+    ↓
+Sidebar re-renders instantly with the new item</code></pre>
+<hr />
+<p><em>Last updated: 2026-03-17 (v2 — added multi-role system)</em></p>
+</body>
+</html>

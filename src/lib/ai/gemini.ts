@@ -1,16 +1,11 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-if (!process.env.GOOGLE_AI_API_KEY) {
-  throw new Error("Missing GOOGLE_AI_API_KEY environment variable");
+function getGenAI() {
+  const key = process.env.GOOGLE_AI_API_KEY;
+  if (!key) throw new Error("Missing GOOGLE_AI_API_KEY environment variable");
+  return new GoogleGenerativeAI(key);
 }
 
-export const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
-
-export const flashModel = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-  generationConfig: { responseMimeType: "application/json" },
-});
-
-export const embeddingModel = genAI.getGenerativeModel({
-  model: "text-embedding-004",
-});
+export function getEmbeddingModel() {
+  return getGenAI().getGenerativeModel({ model: "gemini-embedding-001" });
+}

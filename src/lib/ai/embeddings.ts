@@ -1,4 +1,4 @@
-import { embeddingModel } from "./gemini";
+import { getEmbeddingModel } from "./gemini";
 import type { FullProfile } from "@/types";
 
 /**
@@ -30,7 +30,12 @@ export function profileToText(profile: FullProfile): string {
  * Generate a 768-dim embedding vector for arbitrary text.
  */
 export async function embedText(text: string): Promise<number[]> {
-  const result = await embeddingModel.embedContent(text);
+  // outputDimensionality is supported at runtime but not in the SDK types yet
+  const result = await getEmbeddingModel().embedContent({
+    content: { role: "user", parts: [{ text }] },
+    outputDimensionality: 768,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any);
   return result.embedding.values;
 }
 
