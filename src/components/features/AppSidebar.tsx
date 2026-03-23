@@ -15,6 +15,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -86,6 +87,7 @@ type Props = {
 
 export function AppSidebar({ user }: Props) {
   const pathname = usePathname();
+  const { isMobile, setOpenMobile } = useSidebar();
   const nav = getNav(user.role);
   const initials = (user.name ?? user.email ?? "U")
     .split(" ")
@@ -94,10 +96,14 @@ export function AppSidebar({ user }: Props) {
     .slice(0, 2)
     .toUpperCase();
 
+  const closeMobile = () => {
+    if (isMobile) setOpenMobile(false);
+  };
+
   return (
     <Sidebar>
       <SidebarHeader className="border-b border-sidebar-border pb-4 pt-3">
-        <div className="flex items-center gap-2.5 px-2">
+        <Link href="/" onClick={closeMobile} className="flex items-center gap-2.5 px-2 hover:opacity-80 transition-opacity">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <Zap className="h-4 w-4 text-primary-foreground" />
           </div>
@@ -109,7 +115,7 @@ export function AppSidebar({ user }: Props) {
               AI Talent Platform
             </p>
           </div>
-        </div>
+        </Link>
       </SidebarHeader>
 
       <SidebarContent>
@@ -125,7 +131,7 @@ export function AppSidebar({ user }: Props) {
                 return (
                   <SidebarMenuItem key={item.href}>
                     <SidebarMenuButton
-                      render={<Link href={item.href} />}
+                      render={<Link href={item.href} onClick={closeMobile} />}
                       isActive={isActive}
                       className="flex items-center gap-3"
                     >

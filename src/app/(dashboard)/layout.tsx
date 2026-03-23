@@ -25,12 +25,12 @@ export default async function DashboardLayout({
         <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border bg-card px-4">
           <SidebarTrigger className="-ml-1 h-8 w-8 rounded-md hover:bg-muted transition-colors" />
           <div className="mx-2 h-4 w-px bg-border" />
-          <div className="flex items-center gap-1.5">
+          <Link href="/" className="flex items-center gap-1.5 hover:opacity-80 transition-opacity">
             <Zap className="h-3.5 w-3.5 text-primary" />
             <span className="text-sm font-semibold text-foreground">
               HireStream
             </span>
-          </div>
+          </Link>
           <div className="ml-auto flex items-center gap-1">
             <Link href="/about" className="rounded-md px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
               About
