@@ -1,3 +1,4 @@
+import { Prisma } from "@/generated/prisma/client";
 import { db } from "@/lib/db";
 import { embedProfile } from "./embeddings";
 
@@ -18,10 +19,8 @@ export async function generateProfileEmbedding(profileId: string): Promise<void>
     if (!profile) return;
     const vector = await embedProfile(profile as any);
     const vectorStr = `[${vector.join(",")}]`;
-    await (db as any).$executeRawUnsafe(
-      `UPDATE "Profile" SET embedding = $1::vector WHERE id = $2`,
-      vectorStr,
-      profileId
+    await (db as any).$executeRaw(
+      Prisma.sql`UPDATE "Profile" SET embedding = ${vectorStr}::vector WHERE id = ${profileId}`
     );
   } catch {
     // Non-fatal — embedding generation is best-effort

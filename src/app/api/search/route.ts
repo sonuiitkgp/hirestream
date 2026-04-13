@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@/generated/prisma/client";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { embedText } from "@/lib/ai/embeddings";
@@ -26,16 +27,14 @@ export async function GET(req: NextRequest) {
     const queryVector = await embedText(q);
     const vectorStr = `[${queryVector.join(",")}]`;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const rows = (await (db as any).$queryRawUnsafe(
-      `SELECT p.id, p."userId" as user_id, p."shareToken" as share_token,
+    const rows = (await (db as any).$queryRaw(
+      Prisma.sql`SELECT p.id, p."userId" as user_id, p."shareToken" as share_token,
               p.headline, p.location,
-              1 - (p.embedding <=> $1::vector) as score
+              1 - (p.embedding <=> ${vectorStr}::vector) as score
        FROM "Profile" p
        WHERE p.visibility = 'PUBLIC' AND p.embedding IS NOT NULL
        ORDER BY score DESC
-       LIMIT 100`,
-      vectorStr
+       LIMIT 100`
     )) as SearchRow[];
 
     const userIds = rows.map((r) => r.user_id);

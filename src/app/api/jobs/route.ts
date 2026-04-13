@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { Prisma } from "@/generated/prisma/client";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 
@@ -54,9 +55,8 @@ async function generateJobEmbedding(jobId: string) {
       .filter(Boolean).join("\n");
     const vector = await embedText(text);
     const vectorStr = `[${vector.join(",")}]`;
-    await (db as any).$executeRawUnsafe(
-      `UPDATE "Job" SET embedding = $1::vector WHERE id = $2`,
-      vectorStr, jobId
+    await (db as any).$executeRaw(
+      Prisma.sql`UPDATE "Job" SET embedding = ${vectorStr}::vector WHERE id = ${jobId}`
     );
   } catch {
     // Non-fatal — embedding generation is best-effort

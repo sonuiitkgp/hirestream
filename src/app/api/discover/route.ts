@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { Prisma } from "@/generated/prisma/client";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 
@@ -23,10 +24,8 @@ export async function GET(req: Request) {
   } else {
     // Use own profile embedding as the query vector
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const ownProfile = (await (db as any).$queryRawUnsafe(
-        `SELECT embedding::text FROM "Profile" WHERE "userId" = $1 AND embedding IS NOT NULL`,
-        session.user.id
+      const ownProfile = (await (db as any).$queryRaw(
+        Prisma.sql`SELECT embedding::text FROM "Profile" WHERE "userId" = ${session.user.id} AND embedding IS NOT NULL`
       )) as { embedding: string }[];
       if (ownProfile[0]?.embedding) {
         vectorStr = ownProfile[0].embedding;
@@ -106,19 +105,16 @@ export async function GET(req: Request) {
 
   // Vector similarity search
   type Row = { userId: string; name: string | null; headline: string | null; location: string | null; shareToken: string; score: number };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const rows = (await (db as any).$queryRawUnsafe(
-    `SELECT p."userId", u.name, p.headline, p.location, p."shareToken",
-            1 - (p.embedding <=> $1::vector) AS score
+  const rows = (await (db as any).$queryRaw(
+    Prisma.sql`SELECT p."userId", u.name, p.headline, p.location, p."shareToken",
+            1 - (p.embedding <=> ${vectorStr}::vector) AS score
      FROM "Profile" p
      JOIN "User" u ON u.id = p."userId"
      WHERE p.visibility = 'PUBLIC'
-       AND p."userId" != $2
+       AND p."userId" != ${session.user.id}
        AND p.embedding IS NOT NULL
      ORDER BY score DESC
-     LIMIT 20`,
-    vectorStr,
-    session.user.id
+     LIMIT 20`
   )) as Row[];
 
   return NextResponse.json({

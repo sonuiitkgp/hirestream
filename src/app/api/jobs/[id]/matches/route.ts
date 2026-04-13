@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { Prisma } from "@/generated/prisma/client";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { embedText } from "@/lib/ai/embeddings";
@@ -44,15 +45,14 @@ export async function GET(
   }
 
   // Find profiles ranked by cosine similarity to the job
-  const rows = (await (db as any).$queryRawUnsafe(
-    `SELECT p.id, p."userId" as user_id, p."shareToken" as share_token,
+  const rows = (await (db as any).$queryRaw(
+    Prisma.sql`SELECT p.id, p."userId" as user_id, p."shareToken" as share_token,
             p.headline, p.location,
-            1 - (p.embedding <=> $1::vector) as score
+            1 - (p.embedding <=> ${vectorStr}::vector) as score
      FROM "Profile" p
      WHERE p.visibility = 'PUBLIC' AND p.embedding IS NOT NULL
      ORDER BY score DESC
-     LIMIT 50`,
-    vectorStr
+     LIMIT 50`
   )) as MatchRow[];
 
   // Fetch user names
