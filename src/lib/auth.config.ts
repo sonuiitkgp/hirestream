@@ -6,7 +6,7 @@ import type { NextAuthConfig } from "next-auth";
 type Role = "JOB_SEEKER" | "RECRUITER" | "ADMIN";
 
 export const authConfig = {
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: 10 * 60 },
   pages: {
     signIn: "/login",
     error: "/login",

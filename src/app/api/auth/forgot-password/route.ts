@@ -2,8 +2,18 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { randomBytes } from "crypto";
 import nodemailer from "nodemailer";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function POST(req: Request) {
+  const ip = getClientIp(req);
+  const rl = rateLimit(`forgot-password:${ip}`, { maxRequests: 3, windowMs: 15 * 60 * 1000 });
+  if (!rl.success) {
+    return NextResponse.json(
+      { error: `Too many attempts. Try again in ${rl.retryAfterSeconds} seconds.` },
+      { status: 429 },
+    );
+  }
+
   const { email } = await req.json();
 
   if (!email || typeof email !== "string") {
@@ -30,7 +40,7 @@ export async function POST(req: Request) {
     data: {
       email: user.email,
       token,
-      expires: new Date(Date.now() + 60 * 60 * 1000),
+      expires: new Date(Date.now() + 30 * 60 * 1000),
     },
   });
 
@@ -77,7 +87,7 @@ export async function POST(req: Request) {
               ${buttonText}
             </a>
             <p style="margin: 20px 0 0; font-size: 12px; color: #94a3b8;">
-              This link expires in 1 hour. If you didn't request this, you can safely ignore this email.
+              This link expires in 30 minutes. If you didn't request this, you can safely ignore this email.
             </p>
             <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
             <p style="margin: 0; font-size: 11px; color: #94a3b8;">

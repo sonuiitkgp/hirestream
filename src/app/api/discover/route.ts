@@ -66,7 +66,7 @@ export async function GET(req: Request) {
         },
         orderBy: { updatedAt: "desc" },
         take: 20,
-        include: { user: { select: { name: true, email: true } } },
+        include: { user: { select: { name: true } } },
       });
       return NextResponse.json({
         candidates: profiles.map((p) => ({
@@ -89,7 +89,7 @@ export async function GET(req: Request) {
       },
       orderBy: { updatedAt: "desc" },
       take: 20,
-      include: { user: { select: { name: true, email: true } } },
+      include: { user: { select: { name: true } } },
     });
     return NextResponse.json({
       candidates: profiles.map((p) => ({

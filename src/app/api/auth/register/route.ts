@@ -4,9 +4,20 @@ import { db } from "@/lib/db";
 import type { Role } from "@/generated/prisma/client";
 import { createNotifications } from "@/lib/notifications";
 import { notifyAdminNewUser } from "@/lib/email";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { audit } from "@/lib/audit";
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = getClientIp(req);
+    const rl = rateLimit(`register:${ip}`, { maxRequests: 5, windowMs: 15 * 60 * 1000 });
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: `Too many attempts. Try again in ${rl.retryAfterSeconds} seconds.` },
+        { status: 429 },
+      );
+    }
+
     const { name, email, password, role } = await req.json();
 
     if (!email || !password || !role) {
@@ -42,6 +53,7 @@ export async function POST(req: NextRequest) {
 
     // Notify all admins (in-app + email) in background
     notifyAdminsOfNewUser(user.id, user.name, user.email, role).catch(() => {});
+    audit("REGISTER", { userId: user.id, ip, details: `email: ${email}, role: ${role}` }).catch(() => {});
 
     return NextResponse.json({ id: user.id, email: user.email, role: user.role });
   } catch {

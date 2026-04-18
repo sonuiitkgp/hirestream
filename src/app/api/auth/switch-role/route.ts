@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import type { Role } from "@/generated/prisma/client";
+import { audit } from "@/lib/audit";
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -43,6 +44,11 @@ export async function POST(req: Request) {
   if (targetRole === "JOB_SEEKER" && !user.profile) {
     await db.profile.create({ data: { userId: session.user.id } });
   }
+
+  audit("ROLE_CHANGED", {
+    userId: session.user.id,
+    details: `switched to ${targetRole}${isNewRole ? " (new role added)" : ""}`,
+  }).catch(() => {});
 
   return NextResponse.json({ ok: true, role: targetRole, roles: updatedRoles });
 }

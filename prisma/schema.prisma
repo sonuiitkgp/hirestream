@@ -416,6 +416,21 @@ model Job {
   conversations Conversation[]
 }
 
+// ── Audit Log ─────────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String   // e.g. "LOGIN_FAILED", "ROLE_CHANGED", "ADMIN_ACTION"
+  details   String?  @db.Text
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
+
 // ── Resume Uploads ────────────────────────────────────────────────────────────
 
 model ResumeUpload {

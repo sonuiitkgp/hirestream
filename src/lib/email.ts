@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-const ADMIN_EMAIL = "sonuamex721@gmail.com";
+const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL ?? "sonuamex721@gmail.com";
 
 function getTransporter() {
   return nodemailer.createTransport({
